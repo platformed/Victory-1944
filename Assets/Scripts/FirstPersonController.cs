@@ -46,16 +46,6 @@ public class FirstPersonController : MonoBehaviour {
 		if (!controller.isGrounded) {
 			verticalVelocity += Physics.gravity.y * Time.deltaTime;
 		}
-		if (CollisionFlags.Below == 0) {
-			if (!falling) {
-				falling = true;
-				verticalVelocity = 0f;
-			}
-		} else {
-			if (falling) {
-				falling = false;
-			}
-        }
 
 		//Jump
 		if (controller.isGrounded && Input.GetButtonDown("Jump")) {

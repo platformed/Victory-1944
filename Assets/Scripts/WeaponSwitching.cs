@@ -9,6 +9,7 @@ public class WeaponSwitching : MonoBehaviour {
 	}
 	
 	void Update () {
+		//Switch with number keys
 		if (Input.GetKeyDown(KeyCode.Alpha1)) {
 			currentWeapon = 0;
 			switchWeapon();
@@ -22,6 +23,7 @@ public class WeaponSwitching : MonoBehaviour {
 			switchWeapon();
 		}
 
+		//Switch with scrollwheel
 		float scroll = Input.GetAxis("Mouse ScrollWheel");
 		if (scroll > 0f) {
 			currentWeapon--;
@@ -39,6 +41,7 @@ public class WeaponSwitching : MonoBehaviour {
 		}
 	}
 
+	//Sets the current weapon to active
 	void switchWeapon() {
 		for (int i = 0; i < weapons.Length; i++) {
 			if (i == currentWeapon) {
