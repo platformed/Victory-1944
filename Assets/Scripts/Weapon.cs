@@ -9,13 +9,20 @@ public class Weapon : MonoBehaviour {
 	public float delay;
 	public bool continuousFiring;
 
-	public GameObject test;
-
 	bool shooting = false;
 	float currentDelay = 0f;
-	public int ammo;
+
+	public int ammoPerMagazine;
+	int ammo;
+	public int magazines;
 	
 	void Update () {
+		if (Input.GetKeyDown(KeyCode.R) && magazines > 0) {
+			magazines--;
+			ammo = ammoPerMagazine;
+			shooting = false;
+		}
+
 		if (currentDelay <= 0) {
 			if (continuousFiring) {
 				if (Input.GetButtonDown("Fire1")) {
@@ -32,16 +39,14 @@ public class Weapon : MonoBehaviour {
 	}
 
 	void FixedUpdate() {
-		ammoText.text = ammo.ToString();
-
-		test.SetActive(false);
+		ammoText.text = ammo + " / " + magazines;
 
 		if (shooting && ammo > 0) {
 			shooting = false;
 
 			RaycastHit hit;
 
-			if (Physics.Raycast(cam.position, cam.forward, out hit, 50f)) {
+			if (Physics.Raycast(cam.position + cam.forward * 1, cam.forward, out hit, 50f)) {
 				Player p = hit.transform.GetComponent<Player>();
 
                 if (p != null) {
@@ -53,8 +58,6 @@ public class Weapon : MonoBehaviour {
 			}
 
 			ammo--;
-
-			test.SetActive(true);
 		}
 
 		currentDelay--;
