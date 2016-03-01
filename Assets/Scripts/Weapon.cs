@@ -8,6 +8,8 @@ public class Weapon : MonoBehaviour {
 	public float damage;
 	public float delay;
 	public bool continuousFiring;
+    public float RecoilUp = -20.0f;
+    public float RecoilXAxis = 0.0f;
 
 	bool shooting = false;
 	float currentDelay = 0f;
@@ -44,7 +46,16 @@ public class Weapon : MonoBehaviour {
 		if (shooting && ammo > 0) {
 			shooting = false;
 
-			RaycastHit hit;
+
+            cam.Rotate(RecoilUp, 0, 0);
+
+
+
+            RaycastHit hit;
+
+
+
+
 
 			if (Physics.Raycast(cam.position + cam.forward * 1, cam.forward, out hit, 50f)) {
 				Player p = hit.transform.GetComponent<Player>();
