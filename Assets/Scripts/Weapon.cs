@@ -45,18 +45,10 @@ public class Weapon : MonoBehaviour {
 
 		if (shooting && ammo > 0) {
 			shooting = false;
-
-
+			
             cam.Rotate(RecoilUp, 0, 0);
-
-
-
+			
             RaycastHit hit;
-
-
-
-
-
 			if (Physics.Raycast(cam.position + cam.forward * 1, cam.forward, out hit, 50f)) {
 				Player p = hit.transform.GetComponent<Player>();
 
