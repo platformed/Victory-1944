@@ -9,7 +9,8 @@ public class Weapon : MonoBehaviour {
 	public float delay;
 	public bool continuousFiring;
     public float RecoilUp = -20.0f;
-    public float RecoilXAxis = 0.0f;
+    public float Recoil2 = 0.0f;
+    public float reloadTime = 1.0f;
 
 	bool shooting = false;
 	float currentDelay = 0f;
@@ -20,9 +21,12 @@ public class Weapon : MonoBehaviour {
 	
 	void Update () {
 		if (Input.GetKeyDown(KeyCode.R) && magazines > 0) {
-			magazines--;
-			ammo = ammoPerMagazine;
-			shooting = false;
+            
+            
+                magazines--;
+                ammo = ammoPerMagazine;
+                shooting = false;
+       
 		}
 
 		if (currentDelay <= 0) {
