@@ -73,8 +73,6 @@ public class Weapon : NetworkBehaviour {
 	void Shoot() {
 		RaycastHit hit;
 		if (Physics.Raycast(cam.TransformPoint(0f, 0f, 0.5f), cam.forward, out hit, 200)) {
-			Debug.Log(hit.transform.name);
-
 			if (hit.transform.tag == "Player") {
 				CmdDamagePlayer(hit.transform.name, damage);
 			}

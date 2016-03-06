@@ -22,12 +22,6 @@ public class FirstPersonController : MonoBehaviour {
 	}
 
 	void Update () {
-		//Unlock mouse
-		if (Input.GetKey(KeyCode.Escape)) {
-			Cursor.lockState = CursorLockMode.None;
-			Cursor.visible = true;
-		}
-
 		//Rotation
 		float horizontalRotation = Input.GetAxis ("Mouse X") * mouseSensitivity;
 		transform.Rotate (0, horizontalRotation, 0);
