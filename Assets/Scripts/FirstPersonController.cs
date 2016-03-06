@@ -3,7 +3,7 @@ using System.Collections;
 
 public class FirstPersonController : MonoBehaviour {
 	CharacterController controller;
-	Transform cam;
+	public Transform cam;
 
 	float mouseSensitivity = 1.5f;
 
@@ -18,7 +18,6 @@ public class FirstPersonController : MonoBehaviour {
 		Cursor.visible = false;
 
 		controller = GetComponent<CharacterController>();
-		cam = transform.FindChild("Camera");
 	}
 
 	void Update () {

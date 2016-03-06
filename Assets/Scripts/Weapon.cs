@@ -5,6 +5,7 @@ using System.Collections;
 
 public class Weapon : NetworkBehaviour {
 	public Player player;
+	public Transform recoilTransform;
 	public Transform cam;
 	public float damage;
 	public bool continuousFiring;
@@ -13,6 +14,8 @@ public class Weapon : NetworkBehaviour {
 	public int ammoPerMagazine;
 	public int magazines;
 	int ammo;
+
+	Vector3 recoilRot = Vector3.zero;
 
 	bool shooting = false;
 	float currentDelay = 0f;
@@ -49,6 +52,8 @@ public class Weapon : NetworkBehaviour {
 				}
 			}
 		}
+
+		recoilTransform.localRotation = Quaternion.Lerp(recoilTransform.localRotation, Quaternion.Euler(recoilRot), Time.deltaTime * 10);
 	}
 
 	void FixedUpdate() {
@@ -71,6 +76,8 @@ public class Weapon : NetworkBehaviour {
 	}
 
 	void Shoot() {
+		recoilRot -= new Vector3(recoil, 0, 0);
+
 		RaycastHit hit;
 		if (Physics.Raycast(cam.TransformPoint(0f, 0f, 0.5f), cam.forward, out hit, 200)) {
 			if (hit.transform.tag == "Player") {

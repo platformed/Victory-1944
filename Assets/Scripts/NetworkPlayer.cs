@@ -4,6 +4,8 @@ using System.Collections;
 using System;
 
 public class NetworkPlayer : NetworkBehaviour {
+	public GameObject cam;
+
 	[SyncVar]
 	public string playerUniqueIdentity;
 	NetworkInstanceId playerNetID;
@@ -15,12 +17,10 @@ public class NetworkPlayer : NetworkBehaviour {
 
 	void Start() {
 		if (isLocalPlayer) {
-			GameObject.Find("Scene Camera").SetActive(false);
-
 			GetComponent<CharacterController>().enabled = true;
 			GetComponent<FirstPersonController>().enabled = true;
 
-			transform.FindChild("Camera").gameObject.SetActive(true);
+			cam.SetActive(true);
 		}
 	}
 
