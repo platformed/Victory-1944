@@ -3,17 +3,14 @@ using System.Collections;
 
 public class FirstPersonController : MonoBehaviour {
 	CharacterController controller;
+	Transform cam;
 
 	float mouseSensitivity = 1.5f;
-	float verticalRotation = 0f;
-	float verticalRotationRange = 90f;
 
 	float movementSpeed = 6f;
 	float jumpHeight = 5f;
 
 	float verticalVelocity = 0f;
-
-	bool falling = false;
 
 	void Start () {
 		//Hides and locks cursor
@@ -21,6 +18,7 @@ public class FirstPersonController : MonoBehaviour {
 		Cursor.visible = false;
 
 		controller = GetComponent<CharacterController>();
+		cam = transform.FindChild("Camera");
 	}
 
 	void Update () {
@@ -33,19 +31,9 @@ public class FirstPersonController : MonoBehaviour {
 		//Rotation
 		float horizontalRotation = Input.GetAxis ("Mouse X") * mouseSensitivity;
 		transform.Rotate (0, horizontalRotation, 0);
-
-		verticalRotation -= Input.GetAxis ("Mouse Y") * mouseSensitivity;
-		verticalRotation = Mathf.Clamp (verticalRotation, -verticalRotationRange, verticalRotationRange);
-        //Camera.main.transform.localRotation = Quaternion.Euler (verticalRotation, 0, 0);
-
-        Camera.main.transform.Rotate(-Input.GetAxis ("Mouse Y"), 0, 0);
-
-
-
-    
-    
-
-
+		
+        cam.Rotate(-Input.GetAxis ("Mouse Y"), 0, 0);
+		
 		//Movement
 		float vSpeed = Input.GetAxis ("Vertical") * movementSpeed;
 		float hSpeed = Input.GetAxis ("Horizontal") * movementSpeed;
