@@ -31,7 +31,6 @@ public class NetworkTransform : NetworkBehaviour {
 
 	void FixedUpdate() {
 		if (transmitPos) {
-
 			TransmitPos();
 		}
 
