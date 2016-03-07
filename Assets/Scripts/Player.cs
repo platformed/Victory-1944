@@ -4,6 +4,9 @@ using UnityEngine.Networking;
 using System.Collections;
 
 public class Player : NetworkBehaviour {
+	public GameObject spectator;
+	public GameObject cam;
+
 	[SyncVar(hook = "OnHealthChanged")]
 	float health = 100;
 	GameObject crosshair;
@@ -12,6 +15,8 @@ public class Player : NetworkBehaviour {
 
 	public bool isDead = false;
 	float deathTime;
+
+	const float respawnDelay = 10f;
 
 	// Use this for initialization
 	void Start() {
@@ -47,17 +52,21 @@ public class Player : NetworkBehaviour {
 	}
 
 	void DisablePlayer() {
-		deathTime = 5f;
+		deathTime = respawnDelay;
 
 		GetComponent<CharacterController>().enabled = false;
 		GetComponent<CapsuleCollider>().enabled = false;
 
 		if (isLocalPlayer) {
+			spectator.SetActive(true);
+			cam.SetActive(false);
+
 			GetComponent<FirstPersonController>().enabled = false;
 			crosshair.SetActive(false);
 			respawnText.gameObject.SetActive(true);
 		}
 
+		//Hide player
 		Renderer[] renderers = GetComponentsInChildren<Renderer>();
 		foreach (Renderer r in renderers) {
 			r.enabled = false;
@@ -69,11 +78,17 @@ public class Player : NetworkBehaviour {
 		GetComponent<CapsuleCollider>().enabled = true;
 
 		if (isLocalPlayer) {
+			spectator.SetActive(false);
+			spectator.transform.localPosition = new Vector3(0f, 0.6f, 0f);
+			spectator.transform.rotation = cam.transform.rotation;
+			cam.SetActive(true);
+
 			GetComponent<FirstPersonController>().enabled = true;
 			crosshair.SetActive(true);
 			respawnText.gameObject.SetActive(false);
 		}
 
+		//Show player
 		Renderer[] renderers = GetComponentsInChildren<Renderer>();
 		foreach (Renderer r in renderers) {
 			r.enabled = true;
