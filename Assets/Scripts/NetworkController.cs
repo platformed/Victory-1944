@@ -59,6 +59,12 @@ public class NetworkController : NetworkManager {
 			join.GetComponent<Button>().onClick.RemoveAllListeners();
 			join.GetComponent<Button>().onClick.AddListener(JoinGame);
 		}
+
+		GameObject quit = GameObject.Find("QuitButton");
+		if (quit != null) {
+			quit.GetComponent<Button>().onClick.RemoveAllListeners();
+			quit.GetComponent<Button>().onClick.AddListener(Quit);
+		}
 	}
 
 	public void Quit() {
