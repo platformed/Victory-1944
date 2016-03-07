@@ -80,7 +80,7 @@ public class Player : NetworkBehaviour {
 		if (isLocalPlayer) {
 			spectator.SetActive(false);
 			spectator.transform.localPosition = new Vector3(0f, 0.6f, 0f);
-			spectator.transform.localRotation = cam.transform.rotation;
+			spectator.transform.rotation = cam.transform.rotation;
 			cam.SetActive(true);
 
 			GetComponent<FirstPersonController>().enabled = true;
