@@ -11,6 +11,7 @@ public class Weapon : NetworkBehaviour {
 	public bool continuousFiring;
 	public float delay;
 	public float recoil;
+	public float horizontalRecoil;
 	public int ammoPerMagazine;
 	public int magazines;
 	int ammo;
@@ -76,7 +77,7 @@ public class Weapon : NetworkBehaviour {
 	}
 
 	void Shoot() {
-		recoilRot -= new Vector3(recoil, 0, 0);
+		recoilRot -= new Vector3(recoil, Random.Range(-horizontalRecoil, horizontalRecoil), 0);
 
 		RaycastHit hit;
 		if (Physics.Raycast(cam.TransformPoint(0f, 0f, 0.5f), cam.forward, out hit, 200)) {
