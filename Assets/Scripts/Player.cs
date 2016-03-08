@@ -4,14 +4,19 @@ using UnityEngine.Networking;
 using System.Collections;
 
 public class Player : NetworkBehaviour {
+	public static Gamemode gamemode = Gamemode.TDM;
+
 	public GameObject spectator;
 	public GameObject cam;
+
+	public Team team;
 
 	[SyncVar(hook = "OnHealthChanged")]
 	float health = 100;
 	GameObject crosshair;
 	Text healthText;
 	Text respawnText;
+	Text teamText;
 
 	public bool isDead = false;
 	float deathTime;
@@ -22,11 +27,23 @@ public class Player : NetworkBehaviour {
 	void Start() {
 		healthText = GameObject.Find("HealthText").GetComponent<Text>();
 		respawnText = GameObject.Find("RespawnText").GetComponent<Text>();
+		teamText = GameObject.Find("TeamText").GetComponent<Text>();
 		crosshair = GameObject.Find("Crosshair");
 		SetHealthText();
-	}
 
-	// Update is called once per frame
+		if (gamemode == Gamemode.TDM) {
+			TDMGamemode tdm = GameObject.Find("TDMGamemode").GetComponent<TDMGamemode>();
+
+			if(tdm.teamAPlayers <= tdm.teamBPlayers) {
+				team = Team.A;
+				tdm.CmdAddPlayer(Team.A);
+			} else {
+				team = Team.B;
+				tdm.CmdAddPlayer(Team.B);
+			}
+		}
+	}
+	
 	void Update() {
 		CheckCondition();
 
@@ -36,12 +53,29 @@ public class Player : NetworkBehaviour {
 				respawnText.text = "Respawning in " + (int)deathTime;
 			}
 		}
+
+		if (isLocalPlayer) {
+			if(team == Team.A) {
+				teamText.text = "Team A";
+			} else {
+				teamText.text = "Team B";
+			}
+		}
 	}
 
 	void CheckCondition() {
 		if (health <= 0 && !isDead) {
 			isDead = true;
 			DisablePlayer();
+			
+			if (gamemode == Gamemode.TDM) {
+				if(team == Team.A) {
+					GameObject.Find("TDMGamemode").GetComponent<TDMGamemode>().CmdAddPoint(Team.B);
+				} else {
+					GameObject.Find("TDMGamemode").GetComponent<TDMGamemode>().CmdAddPoint(Team.A);
+				}
+
+			}
 		}
 
 		if (isDead && deathTime <= 0) {
@@ -109,4 +143,12 @@ public class Player : NetworkBehaviour {
 		health = h;
 		SetHealthText();
 	}
+}
+
+public enum Team {
+	A, B
+}
+
+public enum Gamemode {
+	TDM
 }
