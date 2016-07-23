@@ -5,10 +5,10 @@ public class FirstPersonController : MonoBehaviour {
 	CharacterController controller;
 	public Transform cam;
 
-	float mouseSensitivity = 1.5f;
+	const float mouseSensitivity = 1.5f;
 
-	float movementSpeed = 6f;
-	float jumpHeight = 5f;
+	const float movementSpeed = 6f;
+	const float jumpHeight = 5f;
 
 	float verticalVelocity = 0f;
 
